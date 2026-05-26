@@ -177,10 +177,26 @@ function parseOppDate(dateStr) {
 }
 
 function isVisible(opp) {
-  const d = parseOppDate(opp.date);
-  if (!d) return true; // show if unparseable
-  if (d.year > curYear) return true;
-  if (d.year === curYear && d.month >= curMonth) return true;
+  const clean = opp.date.replace(/\(.*\)/, "").trim();
+  const yearMatch = clean.match(/(\d{4})/);
+  if (!yearMatch) return true;
+  const year = parseInt(yearMatch[1]);
+  const monthMatch = clean.match(new RegExp(MONTHS.join("|"), "i"));
+  if (!monthMatch) return true;
+  const month = MONTHS.findIndex(m => m.toLowerCase() === monthMatch[0].toLowerCase());
+
+  // If a specific day is mentioned, compare against today's exact date
+  const dayMatch = clean.match(/\b(\d{1,2})\b(?=,)/);
+  if (dayMatch) {
+    const day = parseInt(dayMatch[1]);
+    const oppDate = new Date(year, month, day);
+    const today = new Date(curYear, curMonth, now.getDate());
+    return oppDate >= today;
+  }
+
+  // No specific day — keep through end of the month
+  if (year > curYear) return true;
+  if (year === curYear && month >= curMonth) return true;
   return false;
 }
 
