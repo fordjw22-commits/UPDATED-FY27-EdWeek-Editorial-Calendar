@@ -370,8 +370,9 @@ function render() {
 
   let html = '<div class="results-meta"><span class="results-count">' + count + ' opportunit' + (count === 1 ? 'y' : 'ies') + ' matched</span></div><div class="results-list">';
 
+  const showDesc = !noTopics || !noFormats;
   matched.forEach(o => {
-    const desc = getDesc(o.format);
+    const desc = showDesc ? getDesc(o.format) : null;
     html += '<div class="result-card"><div class="card-top' + (desc ? ' has-desc' : '') + '"><div><div class="result-title">' + o.title + '</div><div class="result-date">' + o.date + '</div></div><span class="format-badge ' + badgeClass(o.format) + '">' + o.format + '</span></div>' + (desc ? '<div class="result-desc">' + desc + '</div>' : '') + '</div>';
   });
 
