@@ -86,6 +86,9 @@
     .cta-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: var(--radius); background: var(--light-blue); color: var(--white); font-size: 13px; font-weight: 600; border: none; cursor: pointer; font-family: inherit; text-decoration: none; white-space: nowrap; transition: background 0.13s; }
     .cta-btn:hover { background: #0090b8; }
 
+    .result-card--expandable:hover { border-color: var(--light-blue); }
+    .result-desc--hidden { display: none; }
+
     .footer { text-align: center; padding: 2.5rem 1rem; font-size: 12px; color: #c5c4be; }
 
     @media (max-width: 600px) {
@@ -370,15 +373,36 @@ function render() {
 
   let html = '<div class="results-meta"><span class="results-count">' + count + ' opportunit' + (count === 1 ? 'y' : 'ies') + ' matched</span></div><div class="results-list">';
 
-  const showDesc = !noTopics || !noFormats;
-  matched.forEach(o => {
-    const desc = showDesc ? getDesc(o.format) : null;
-    html += '<div class="result-card"><div class="card-top' + (desc ? ' has-desc' : '') + '"><div><div class="result-title">' + o.title + '</div><div class="result-date">' + o.date + '</div></div><span class="format-badge ' + badgeClass(o.format) + '">' + o.format + '</span></div>' + (desc ? '<div class="result-desc">' + desc + '</div>' : '') + '</div>';
+  const filtered = !noTopics || !noFormats;
+  matched.forEach((o, i) => {
+    const desc = getDesc(o.format);
+    const cardId = 'card-desc-' + i;
+    if (desc) {
+      if (filtered) {
+        html += '<div class="result-card"><div class="card-top has-desc"><div><div class="result-title">' + o.title + '</div><div class="result-date">' + o.date + '</div></div><span class="format-badge ' + badgeClass(o.format) + '">' + o.format + '</span></div><div class="result-desc">' + desc + '</div></div>';
+      } else {
+        html += '<div class="result-card result-card--expandable" onclick="toggleDesc(\'' + cardId + '\', this)" style="cursor:pointer"><div class="card-top"><div><div class="result-title">' + o.title + '</div><div class="result-date">' + o.date + '</div></div><span class="format-badge ' + badgeClass(o.format) + '">' + o.format + '</span></div><div class="result-desc result-desc--hidden" id="' + cardId + '">' + desc + '</div></div>';
+      }
+    } else {
+      html += '<div class="result-card"><div class="card-top"><div><div class="result-title">' + o.title + '</div><div class="result-date">' + o.date + '</div></div><span class="format-badge ' + badgeClass(o.format) + '">' + o.format + '</span></div></div>';
+    }
   });
 
   html += '</div><div class="cta-bar"><div class="cta-text"><p>Interested in these opportunities?</p><p>Our team can build a custom sponsorship package around your goals.</p></div><a href="mailto:mbell@educationweek.org" class="cta-btn">Contact us &rarr;</a></div>';
 
   area.innerHTML = html;
+}
+
+function toggleDesc(id, card) {
+  const desc = document.getElementById(id);
+  const isOpen = !desc.classList.contains('result-desc--hidden');
+  if (isOpen) {
+    desc.classList.add('result-desc--hidden');
+    card.querySelector('.card-top').classList.remove('has-desc');
+  } else {
+    desc.classList.remove('result-desc--hidden');
+    card.querySelector('.card-top').classList.add('has-desc');
+  }
 }
 
 buildTopics();
