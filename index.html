@@ -8,11 +8,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --navy: #1a2744;
       --navy-mid: #2c3f6b;
-      --red: #c8251e;
+      --light-blue: #00acd8;
+      --light-blue-bg: #e6f7fc;
+      --light-blue-border: #b3e4f4;
+      --red: #bf062f;
       --gray-50: #f7f7f5;
       --gray-500: #888780;
       --gray-700: #444441;
@@ -22,149 +24,55 @@
       --radius: 8px;
       --radius-lg: 12px;
     }
+    body { font-family: 'DM Sans', sans-serif; background: var(--gray-50); color: var(--gray-700); min-height: 100vh; }
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--gray-50);
-      color: var(--gray-700);
-      min-height: 100vh;
-    }
+    .header { background: var(--white); border-bottom: 3px solid var(--light-blue); padding: 18px 0; }
+    .header-inner { max-width: 880px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .header-logo { height: 44px; width: auto; display: block; }
 
-    .header {
-      background: var(--navy);
-      padding: 20px 0;
-      border-bottom: 3px solid var(--red);
-    }
-    .header-inner {
-      max-width: 880px; margin: 0 auto; padding: 0 2rem;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .logo-text {
-      font-family: 'Source Serif 4', serif;
-      font-size: 22px; font-weight: 600; color: var(--white);
-      letter-spacing: -0.3px; line-height: 1;
-    }
-    .logo-sub {
-      font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.55);
-      letter-spacing: 0.08em; text-transform: uppercase; margin-top: 3px;
-    }
-    .header-badge { font-size: 11px; color: rgba(255,255,255,0.6); font-weight: 500; }
 
-    .hero {
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 40px 2rem 36px;
-    }
+    .hero { background: var(--light-blue-bg); border-bottom: 1px solid var(--light-blue-border); padding: 36px 2rem 32px; }
     .hero-inner { max-width: 880px; margin: 0 auto; }
-    .hero h1 {
-      font-family: 'Source Serif 4', serif;
-      font-size: 30px; font-weight: 600; color: var(--navy);
-      line-height: 1.2; letter-spacing: -0.4px; margin-bottom: 10px;
-    }
+    .hero h1 { font-family: 'Source Serif 4', serif; font-size: 28px; font-weight: 600; color: var(--navy); line-height: 1.2; letter-spacing: -0.3px; margin-bottom: 8px; }
     .hero p { font-size: 15px; color: var(--gray-500); line-height: 1.6; max-width: 560px; }
 
     .main { max-width: 880px; margin: 0 auto; padding: 2rem; }
 
-    .filter-section {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .filter-row {
-      margin-bottom: 1.25rem;
-    }
+    .filter-section { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.5rem; }
+    .filter-row { margin-bottom: 1.25rem; }
     .filter-row:last-child { margin-bottom: 0; }
-
-    .filter-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 12px;
-    }
-    .filter-label {
-      font-size: 12px; font-weight: 600;
-      letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-500);
-    }
-    .clear-btn {
-      font-size: 12px; color: var(--gray-500);
-      background: none; border: none; cursor: pointer;
-      text-decoration: underline; padding: 0; font-family: inherit;
-    }
+    .filter-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .filter-label { font-size: 12px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-500); }
+    .clear-btn { font-size: 12px; color: var(--gray-500); background: none; border: none; cursor: pointer; text-decoration: underline; padding: 0; font-family: inherit; }
     .clear-btn:hover { color: var(--navy); }
-
-    .filter-divider {
-      border: none; border-top: 1px solid var(--border); margin: 1.25rem 0;
-    }
-
+    .filter-divider { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
     .tag-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-
-    .tag-btn {
-      display: inline-flex; align-items: center; gap: 7px;
-      padding: 7px 14px; border-radius: 20px;
-      border: 1px solid var(--border);
-      background: var(--gray-50); color: var(--gray-500);
-      font-size: 13px; font-weight: 500; cursor: pointer;
-      font-family: inherit; transition: all 0.14s ease;
-    }
+    .tag-btn { display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: 20px; border: 1px solid var(--border); background: var(--gray-50); color: var(--gray-500); font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.14s ease; }
     .tag-btn:hover { border-color: var(--border-hover); color: var(--navy); background: #eef1f8; }
     .tag-btn.active { background: var(--navy); border-color: var(--navy); color: var(--white); }
-
-    /* Platform buttons use format badge colors when active */
     .tag-btn.active.pf-forum      { background: #e8edf8; border-color: #b0bde0; color: #1a2744; }
     .tag-btn.active.pf-report     { background: #e8f4ec; border-color: #9fcfae; color: #1a4a2a; }
     .tag-btn.active.pf-webinar    { background: #fdf3e3; border-color: #f0c97a; color: #6b3e0a; }
     .tag-btn.active.pf-video      { background: #fce8e8; border-color: #f0aaaa; color: #7a1212; }
     .tag-btn.active.pf-event      { background: #f0ecfc; border-color: #c9bef0; color: #3b2472; }
     .tag-btn.active.pf-discussion { background: #e3f6f0; border-color: #8ed9c0; color: #0a4a32; }
-
-    .tag-dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: currentColor; opacity: 0.5; flex-shrink: 0;
-    }
+    .tag-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: 0.5; flex-shrink: 0; }
     .tag-btn.active .tag-dot { opacity: 1; }
-    .tag-btn.active:not([class*="pf-"]) .tag-dot { background: var(--red); }
+    .tag-btn.active:not([class*="pf-"]) .tag-dot { background: var(--light-blue); }
 
-    .results-meta {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 12px;
-    }
+    .results-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
     .results-count { font-size: 13px; color: var(--gray-500); font-weight: 500; }
-
     .empty-state { text-align: center; padding: 4rem 2rem; color: var(--gray-500); }
     .empty-state p { font-size: 14px; line-height: 1.6; }
-
     .results-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.5rem; }
-
-    .result-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px 18px;
-      transition: border-color 0.12s;
-    }
+    .result-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; transition: border-color 0.12s; }
     .result-card:hover { border-color: var(--border-hover); }
-
-    .card-top {
-      display: flex; align-items: flex-start;
-      justify-content: space-between; gap: 16px;
-    }
+    .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
     .card-top.has-desc { margin-bottom: 10px; }
-
     .result-title { font-size: 14px; font-weight: 500; color: var(--navy); line-height: 1.4; margin-bottom: 3px; }
     .result-date  { font-size: 12px; color: var(--gray-500); }
-
-    .result-desc {
-      font-size: 12px; color: var(--gray-500);
-      line-height: 1.6; padding-top: 10px;
-      border-top: 1px solid var(--border);
-    }
-
-    .format-badge {
-      display: inline-block; font-size: 11px; font-weight: 600;
-      padding: 4px 10px; border-radius: 20px;
-      white-space: nowrap; letter-spacing: 0.02em; flex-shrink: 0;
-    }
+    .result-desc  { font-size: 12px; color: var(--gray-500); line-height: 1.6; padding-top: 10px; border-top: 1px solid var(--border); }
+    .format-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; white-space: nowrap; letter-spacing: 0.02em; flex-shrink: 0; }
     .badge-forum      { background: #e8edf8; color: #1a2744; }
     .badge-report     { background: #e8f4ec; color: #1a4a2a; }
     .badge-webinar    { background: #fdf3e3; color: #6b3e0a; }
@@ -172,28 +80,16 @@
     .badge-event      { background: #f0ecfc; color: #3b2472; }
     .badge-discussion { background: #e3f6f0; color: #0a4a32; }
 
-    .cta-bar {
-      background: var(--navy); border-radius: var(--radius-lg);
-      padding: 20px 24px;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 16px; flex-wrap: wrap;
-    }
+    .cta-bar { background: var(--navy); border-radius: var(--radius-lg); padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
     .cta-text p:first-child { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 3px; }
     .cta-text p:last-child  { font-size: 13px; color: rgba(255,255,255,0.55); }
-    .cta-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 10px 20px; border-radius: var(--radius);
-      background: var(--red); color: var(--white);
-      font-size: 13px; font-weight: 600; border: none;
-      cursor: pointer; font-family: inherit; text-decoration: none;
-      white-space: nowrap; transition: background 0.13s;
-    }
-    .cta-btn:hover { background: #a81e18; }
+    .cta-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: var(--radius); background: var(--light-blue); color: var(--white); font-size: 13px; font-weight: 600; border: none; cursor: pointer; font-family: inherit; text-decoration: none; white-space: nowrap; transition: background 0.13s; }
+    .cta-btn:hover { background: #0090b8; }
 
     .footer { text-align: center; padding: 2.5rem 1rem; font-size: 12px; color: #c5c4be; }
 
     @media (max-width: 600px) {
-      .header-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .header-inner { flex-direction: column; align-items: flex-start; }
       .hero h1 { font-size: 22px; }
       .card-top { flex-direction: column; align-items: flex-start; }
       .cta-bar { flex-direction: column; align-items: flex-start; }
@@ -204,18 +100,15 @@
 
 <header class="header">
   <div class="header-inner">
-    <div>
-      <div class="logo-text">EdWeek Marketing Solutions</div>
-      <div class="logo-sub">Education Week</div>
-    </div>
-    <div class="header-badge">Sponsorship Opportunities &bull; May 2026–July 2027</div>
+    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD/wAARCAE0BiADACIAAREBAhEB/9sAQwAIBgYHBgUIBwcHCQkICgwUDQwLCwwZEhMPFB0aHx4dGhwcICQuJyAiLCMcHCg3KSwwMTQ0NB8nOT04MjwuMzQy/9sAQwEJCQkMCwwYDQ0YMiEcITIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIy/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMAAAERAhEAPwD3+iiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigDxX4l6Z4v8ADc0mraTr2qSaQ5y8YuGJtif/AGX0Pboa80/4TnxX/wBDFqX/AIENX1lLFHPE8UqK8bqVZGGQwPUEV88/Ez4aSeG5n1bSY2fSHbLxjk2xP/svoe3Q17uW18PUtRrQV+jstf8Ag/n678leE170Wzk/+E58V/8AQxal/wCBDUf8Jz4r/wChi1L/AMCGrAor2/qmH/kX3I5faT7s3z458V4P/FRal/4ENX1F4cmkuPDOlTTSNJLJaRM7scliUBJNfHp6Gvr/AMLf8ilo/wD15Q/+gCvIzijTp0ouEUtei8jow0pOTuzWooor547QooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAyPWjI9a+RPElzOPFGrATygC8lwA5/vmsv7Vcf8/E3/fw17dPJZTgpc+/l/wTleKSdrH2fketGR618Yfarj/n4m/7+Gj7Vcf8/E3/AH8NX/Ycv5/w/wCCL62ux9n5HrRketfGH2q4/wCfib/v4aPtVx/z8Tf9/DR/Ycv5/wAP+CH1tdj7OyPWlr4w+1XH/PxN/wB/DX1Z4BYt4B0NmJJNomSTkniuTG5a8LTU3K+ttjSlX9o7WOjooorzDcKKKRvun6UALketGR618aT3Vx9ol/0ib77fxn1qP7Vcf8/E3/fw17qyOTXx/h/wTk+tLsfZ+RRXzf8ABueaT4iW6vNIy/Z5eGYkdK+ibwObG4EefMMbbdvXOOMV5uNwjwtRQbvpc3pVPaK5PRXzF/ZXxN/54+I/++5P8awJPEniOKV45Na1NHRirK1y4II6g812rJqr2mjL6zFdGfXlFfLttafEa9tYrm2HiCaCVQ8ciSSFWB6EHNe5/DSHV4PBdvHra3S3wlk3C6JL43cZzz0rnxOXzw8OeUk/QunWU3ZI6+iivIfizZ+LrnxBZN4ej1VrcWuJDZswXduPXB64xXLh6LrVFTTtfuaTlyq569RXypqk3jnRYo5NUudbs0kbajTTOoY+g5qnZa34q1G8jtLLVdVnuJDhIo7lyzHGeBmvTWS1WrqS/Ew+tR7H1vRXzTZaX8SRf2xlh8Q+WJU37nkxjIznmvpauLF4OWGtzSTv2Nad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H/68of8A0AVpzQx3ELwzRrJG6lXRhkMD1BFNtraGztYra3QJDCgREH8KgYArur46VegqdTdPf/PzMo0lGbkiWiiiuE1CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACvknxt/yPWu/9f0v/AKEa+tq+SfG3/I9a7/1/S/8AoRr2Mk/jy9P1RzYr4F6mbpP/ACGtP/6+Yv8A0MV9kV8XQyvBPHNGdskbB1OOhByK7P8A4W342/6DC/8AgLF/8TXp5lgqmK5eRrS+/nYwoVY073Pp6ivmH/hbfjb/AKDA/wDAaL/4mva/hfrupeI/By3+q3Hn3JuJE37FXgYxwABXiYjLa2Hh7SbVv68jqhXjN2R2dFFFeebEN3d29jaS3d1MkMEKl5JHOAoHUmvAPGnxh1PV55LTQZHsNPBI85eJpffP8I9hz71qfG7xY8l3F4ZtZCIowJrvB+8x5VT7Ac/iPSvHK9/LMuhKPtqqvfZfqcdes0+WI+aWS4lMk8jyyE5LOxYn8TRDLJbyCSGR4pFOQyMVI/EV2/gT4Z3/AIxBvJpTZ6WrbfO25aUjqEH9f516h/wo/wAKfZ/L8zUfMxjzfPGc+uNuK9OtjsPQfs5v5GEaU56o898J/FzVtLBsdbkk1CwdSnmNzNFkdQf4h7Hn3rzg9T9a7jx58NL/AMGgXkUv2zS3baJtuGjJ6Bx/UcfSuGq8NDDu9WhtLt5eXQVRz+GfQ9A+DH/JRrf/AK95f5V9KV81/Bj/AJKNb/8AXvL/ACr6Urws7/3iPp+rOvC/B8wrl/iJo/8AbfgTVLVV3SpF50X+8nzf0I/GuopGUOpVgCpGCD3FeTCbhJSjujoaurM+SvBWrf2J4y0m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tdWd1Je1jC+lr/O7M8KlytnK+PvB8PjDw7JagKt9DmS1kPZ/7p9j0P4elfO3hnXr/wAEeKUuxG6vA5iurduNy5wyn39PcV9Z14v8Z/BG5T4o0+LkYW+RR1HQSf0P4VOV4pJvD1fhl/Vvn+Y69P7cd0evabqNrq+m2+oWUgktrhA8bD0P9atV4B8HPG/9lah/wj1/Liyu3zbsx4jlPb6N/P617/XFjMK8NVcHt09DWlUU43CiiiuQ0CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAPj7xKR/wlOrc/8AL5N/6Gay8j1FfYMnhvQpZGkk0bT3dyWZmtkJJPUk4pv/AAi/h/8A6Aenf+Aqf4V9FSzmjCEYuL0XkcUsNJtu58gZHqKMj1FfX/8Awi/h/wD6Aenf+Aqf4Uf8Iv4f/wCgHp3/AICp/hWn9t0f5X+H+Yvqsu58gZHqKMj1FfX/APwi/h//AKAenf8AgKn+FH/CL+H/APoB6d/4Cp/hR/bdH+V/h/mH1WXc+QMj1FfWPw//AOSf6F/16J/Kr3/CL+H/APoB6d/4Cp/hWlBBFbQJBBEkUSDCIigKo9AB0rhzDMaeJpKEU1rf8zWjRdOV2ZPirwzZeLNCm0y9GA3zRSgfNE46MP8APIr5f8TeFdV8Kak1nqUBUZPlTqP3co9VP9Oor66qtf6dZ6paNa39rDcwN1jlQMP1rDA5hLCvlavF/wBaF1aKqa9T40o7be3pX0jffBbwjdymSKO7tM/wwz/L+TA0ll8FvCNpKHlju7vH8M0/y/koFe3/AGvheW936W/pHJ9WqXPBdA8N6n4lvTbabbtJtG6SQ8JEvqx7fzNZJIBIyK+ybDS7DS7MWlhZw21uP+WcSBR+PrVT/hF/D/8A0BNO/wDAVP8ACuZZ3T5neLt07mn1V23PkDI9RXsvwBx9s1z/AK5xfzavWv8AhF/D/wD0A9O/8BU/wq1ZaVp2mlzY2Ftal8BjDEqbseuBzWOLzWlWoypxi7sqnh5RkpNlyiiivCOsK8e+POkeZp2mawi8wyNbyH/ZYZX9Qfzr2GoLuztr+AwXdvFcQkgmOVAykjpwa3wtb2FaNTt/TIqR5ouJ8d6dZPqep2tjDzJczLEuPVjivsW0to7OzgtYhiOGNY0HoAMCqcHh7RbadJ4NIsIpUO5HS3QMp9QQOK0q7cxx8cUoqCaSM6NF073CiiivLNwr5b+KOkjSPiBqSKNsdywuU/4GMn/x7NfUlUbzRtM1GUS3unWlzIo2h5oVcgemSK7cBilhqvO1dNWMq1P2kbI+evg3pI1Px5Fcsu6Oxiac/wC991f1Ofwr6TqnZaTp2ms7WNhbWxcAMYYlTd9cCrlPH4tYqopRVklYKNP2cbMK5rxr4MsfGekfZbg+VcxZa3uAMmNv6g9xXS0VyU6kqclODs0aNKSsz5P1XQfEngHWUmlWa0lib9xeQk7H+jdPwP4iu50j48ahbwLHq2lRXbgY86CTyi31GCPyxXuc9vDdQtDcQxzRMMMkihlP1Brkr34WeDb5y76LHEx6+RI0Y/IHFeu8ww2IivrMNV1X/Dr9Tm9jOD/ds8+1P493UkJTS9FjgkI/1lxNvx/wEAfzrz0jxJ4/17di41K9fjIHyxj+SLXv9r8JvBdq4caQJSP+e0zuPyJxXWWOn2WmW4t7G0htoR0SFAo/IU4Y3B4f3qFN83n/AMOwdKrPSb0OQ+Hnw9t/Btk087JPq064lmH3UH9xfb1Peu4ooryq9edebnN6nRCCgrIgvbK31Gyms7uFZreZCkkbDIYGvnTxz8LNT8Nzy3emxSXukklgyDdJCPRwOo/2h+OK+kqK2wmNqYWV46p7ompSVRanzb4X+L+veH7dLS6VNTtEG1RMxEiD0D9/xBrqpvj9H5J8jw8/m4433Q2/otejar4D8L61I0t9otq8rdZEXy2P1K4zWOnwf8FrJu/syRh/da5kx/Ou2WIy6q+acGn5f8P/AJGKhWjomeIeJ/HniHxrKltcPtty37uytVO0ntkclj9a7v4c/CWcXMOs+JIfLWMh4LJ+rHsz+g/2fz9K9X0jwvoeg/8AIL0q1tm/vonzn/gR5/WtelVzOEKfssLHlXfr/XnccaDcuao7mL4t1W40PwnqWp2ojM9tCZEEgyufcZFfPHiT4n674q0dtM1COxW3Z1cmGNlbI6cljX0/JGk0bRyorowwVYZB/Cqv9kab/wBA+0/78r/hXLg69Ci+apC7TujSpCUtIux8n+GPE974T1Y6lpywNP5bR4mUsuDjPAI9K96+FvjbVPGdvqT6mlqptnRU8hCvUHOck+ldt/ZGm/8AQPtP+/K/4VNBaW1qGFvbxQhuvloFz+Vb43HUMTFvk97o7+ZFKlKD30Jq8Y+I3xM1rQPFF5olvb6fLZeUmVuIWYsGXkH5hxzXs9VptPsriQyTWdvI56s8Skn8SK4cPOlCd6seZGs1Jr3XY+NmkBkLrhPm3AKfu/SvRLT41+Kre3htyNPl2KqeZJCxZscZJDDmvoL+yNN/6B9p/wB+V/wo/sjTf+gfaf8Aflf8K9atmeGrJKpTvbzOeNCcfhkWYXMkEbnqygnH0p9AGBgdKK8I6wooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKoXmtabp8whvL2KGQjcFc4OKv15Z8Rf8AkYo/+vdf5mtsPSVWooN7nJjsS8Nh5Vkr2t+djvP+Ep0L/oKW/wD31R/wlOhf9BS3/wC+q8Vor0/7Lj/MfPf6x1P5F957V/wlOhf9BS3/AO+qsWet6ZqE/k2l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RRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAeJeI7F9O8QXsDAgeYXT3VuR/OsuvXfFvhhdetllgKpexDCE8Bx/dP9K8ourW4srhre5heKVeqsMGvosHXjVppdUfB5rgp4evKVvdk7p+vT5C2d7cafdJc2srRTJ0Zf88iu50/4k4QJqNkSw6yQHr/wE/415/RWtbD063xo58Lj6+F/hS07dD1iP4gaE4y0k6H0aI/0zTm8faCo4nmb2ER/rXktFcn9mUe7/D/I9L/WLFfyx+5/5npF78SrVVIsrKWRuzSkKPyGa4fV9avtbufOvJc4+4i8Kg9hWfRXRRwlKk7xWpxYvNMTilyzdl2X9XCgAkgAEk9AKdHHJNIscSM7scKqjJJ+lei+EvBbWkqajqiDzl5ig67D6t7+1a1q0KUeaTOfC4WriaihTX+S9ToPCulNo+gQW8gxM/7yUejHt+AwK2qKK+ZqVHUm5vqfoOHoxoUo0o7IKKKKg2CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAqnqGlWOqReXe20cwHQsOR9D1FXKKcZOLunZkzhGceWaujh734bWchLWV7LD/ALMgDj+hrHm+HGrIf3Vxayj/AHip/lXqFFdkMwrx3d/U8qrkeDqbJx9H/nc8kbwDry9IIW+kwoXwFrzdYIV+swr1uitP7Trdl+P+Zh/q9hf5pfev8jy6H4c6s5/ez2sQ/wB4t/Stez+GtshDXl9JL/sxKEH5nNd1RUSzGvLay/rzNaeRYOG6cvV/5WM/TdD03SVxZWqRtjBfqx/E81oUUVxznKbvJ3Z6tOlClHlppJeQUUUVJoFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQB//Z" alt="EdWeek Marketing Solutions" class="header-logo" />
+  
   </div>
 </header>
 
 <section class="hero">
   <div class="hero-inner">
     <h1>Find the right sponsorship for your brand</h1>
-    <p>Select the topics and formats that match your organization's goals and we'll show you the relevant opportunities from our upcoming editorial calendar.</p>
+    <p>Browse all upcoming sponsorship opportunities below, or use the filters to narrow by topic and format.</p>
   </div>
 </section>
 
@@ -237,7 +130,6 @@
       <div class="tag-grid" id="format-container"></div>
     </div>
   </div>
-
   <div id="results-area"></div>
 </main>
 
@@ -246,30 +138,74 @@
 </footer>
 
 <script>
+// ── Date helpers ──────────────────────────────────────────────────────────────
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const SHORT_MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+const now   = new Date();
+const curYear  = now.getFullYear();
+const curMonth = now.getMonth(); // 0-indexed
+
+// Calendar end: July 2027 → year=2027, month=6 (0-indexed)
+const endYear  = 2027;
+const endMonth = 6;
+
+function headerDateRange() {
+  const startLabel = MONTHS[curMonth] + " " + curYear;
+  const endLabel   = MONTHS[endMonth] + " " + endYear;
+  return "Sponsorship Opportunities \u2022 " + startLabel + "\u2013" + endLabel;
+}
+
+
+
+// ── Parse a display date string into {year, month} (0-indexed month) ─────────
+function parseOppDate(dateStr) {
+  // Handles: "May 2026", "May 4, 2026", "May 2026 (tentative)", "May\u2013July 1, 2026", etc.
+  const clean = dateStr.replace(/\(.*\)/, "").trim();
+  // Pull last 4-digit year
+  const yearMatch = clean.match(/(\d{4})/);
+  if (!yearMatch) return null;
+  const year = parseInt(yearMatch[1]);
+  // Pull first month name
+  const monthMatch = clean.match(new RegExp(MONTHS.join("|"), "i"));
+  if (!monthMatch) return null;
+  const month = MONTHS.findIndex(m => m.toLowerCase() === monthMatch[0].toLowerCase());
+  return { year, month };
+}
+
+function isVisible(opp) {
+  const d = parseOppDate(opp.date);
+  if (!d) return true; // show if unparseable
+  if (d.year > curYear) return true;
+  if (d.year === curYear && d.month >= curMonth) return true;
+  return false;
+}
+
+// ── Data ──────────────────────────────────────────────────────────────────────
 const topics = [
-  { id: "ai",              label: "AI & technology" },
-  { id: "sel",             label: "SEL & well-being" },
-  { id: "pd",              label: "Professional development" },
+  { id: "ai",              label: "AI & Technology" },
+  { id: "sel",             label: "SEL & Well-Being" },
+  { id: "pd",              label: "Professional Development" },
   { id: "math",            label: "Math" },
-  { id: "reading",         label: "Reading & literacy" },
-  { id: "el",              label: "English learners" },
-  { id: "sped",            label: "Special education" },
-  { id: "teaching",        label: "Teaching & staffing" },
-  { id: "earlyed",         label: "Early learning" },
-  { id: "cte",             label: "Career & tech ed" },
-  { id: "policy",          label: "Policy & funding" },
-  { id: "cs",              label: "Computer science" },
-  { id: "climate",         label: "Climate & sustainability" },
-  { id: "districtleaders", label: "District leadership" },
+  { id: "reading",         label: "Reading & Literacy" },
+  { id: "el",              label: "English Learners" },
+  { id: "sped",            label: "Special Education" },
+  { id: "teaching",        label: "Teaching & Staffing" },
+  { id: "earlyed",         label: "Early Learning" },
+  { id: "cte",             label: "Career & Tech Ed" },
+  { id: "policy",          label: "Policy & Funding" },
+  { id: "cs",              label: "Computer Science" },
+  { id: "climate",         label: "Climate & Sustainability" },
+  { id: "districtleaders", label: "District Leadership" },
 ];
 
 const formats = [
-  { id: "Special Report",        label: "Special Report",        cls: "pf-report" },
-  { id: "K-12 Essentials Forum", label: "K-12 Essentials Forum", cls: "pf-forum" },
-  { id: "Webinar",               label: "Webinar",               cls: "pf-webinar" },
-  { id: "Video",                 label: "Video",                 cls: "pf-video" },
-  { id: "Special Event",         label: "Special Event",         cls: "pf-event" },
-  { id: "Live Online Discussion", label: "Live Online Discussion", cls: "pf-discussion" },
+  { id: "Special Report",         label: "Special Report",         cls: "pf-report" },
+  { id: "K-12 Essentials Forum",  label: "K-12 Essentials Forum",  cls: "pf-forum" },
+  { id: "Webinar",                label: "Webinar",                cls: "pf-webinar" },
+  { id: "Video",                  label: "Video",                  cls: "pf-video" },
+  { id: "Special Event",          label: "Special Event",          cls: "pf-event" },
+  { id: "Live Online Discussion",  label: "Live Online Discussion", cls: "pf-discussion" },
 ];
 
 const descriptions = {
@@ -284,67 +220,70 @@ const descriptions = {
 };
 
 const opps = [
-  { date: "May 2026",               title: "AI and Social-Emotional Learning",                                                                     format: "Video",                 tags: ["ai","sel"] },
-  { date: "May 2026",               title: "Make Schools Active: Using Movement to Foster Engagement and Learning",                                 format: "Webinar",               tags: ["sel"] },
-  { date: "May 4, 2026",            title: "Middle and High School Math: How to Get Struggling Learners on Track",                                 format: "Special Report",        tags: ["math"] },
-  { date: "May 7, 2026",            title: "Education Week Leadership Symposium (virtual)",                                                        format: "Special Event",         tags: ["districtleaders"] },
-  { date: "May 18, 2026",           title: "Professional Development That Delivers on Its Promise",                                                format: "Special Report",        tags: ["pd"] },
-  { date: "May 21, 2026",           title: "Middle and High School Math: How to Get Struggling Learners on Track",                                 format: "K-12 Essentials Forum", tags: ["math"] },
-  { date: "June 2026",              title: "Making Computer Science for All Students a Reality",                                                   format: "Webinar",               tags: ["cs","ai"] },
-  { date: "June 2026",              title: "Early Learning",                                                                                       format: "Video Series",          tags: ["earlyed"] },
-  { date: "June 2026",              title: "Crafting AI Policies",                                                                                 format: "Video",                 tags: ["ai","policy"] },
-  { date: "June 11, 2026",          title: "EdWeek Market Brief Forum (virtual)",                                                                  format: "Special Event",         tags: ["districtleaders","policy"] },
-  { date: "June 17, 2026",          title: "The Rewiring of Childhood with Jonathan Haidt (A Seat at the Table)",                                 format: "Live Online Discussion", tags: ["sel"] },
-  { date: "June 18, 2026",          title: "Professional Development That Delivers on Its Promise",                                                format: "K-12 Essentials Forum", tags: ["pd"] },
-  { date: "June 28\u2013July 1, 2026", title: "Ed-Tech Conference Coverage: ISTELive + ASCD",                                                    format: "Special Event",         tags: ["ai","pd"] },
-  { date: "July 9, 2026",           title: "The State of Teaching: A Detailed Report on the Health of the Profession",                            format: "K-12 Essentials Forum", tags: ["teaching"] },
-  { date: "July 13, 2026",          title: "How Can Districts Support Special Education Teachers (3 videos)",                                      format: "Video Special Report",  tags: ["sped","teaching"] },
-  { date: "August 2026",            title: "Climate Futures: How Schools Are Adapting to Climate Change",                                         format: "Video Series",          tags: ["climate","policy"] },
-  { date: "August 2026",            title: "The Future of K-12 Funding: What Changes Are Coming to School Budgets?",                              format: "Webinar",               tags: ["policy"] },
-  { date: "August 3, 2026",         title: "Preparing for a New School Year: Key Issues for District Leaders to Watch",                           format: "Special Report",        tags: ["districtleaders","policy"] },
-  { date: "August 3, 2026",         title: "Preparing for a New School Year: Key Issues for District Leaders to Watch",                           format: "Video",                 tags: ["districtleaders","policy"] },
-  { date: "September 2026",         title: "How Principals Can Support Teachers in Managing Student Behavior",                                     format: "Webinar",               tags: ["teaching","sel"] },
-  { date: "September 8, 2026",      title: "Big Ideas in Education",                                                                              format: "Special Report",        tags: ["districtleaders"] },
-  { date: "September 8, 2026",      title: "Big Ideas in Education",                                                                              format: "Video",                 tags: ["districtleaders"] },
-  { date: "September 21, 2026",     title: "English Learners: Paths to Success",                                                                  format: "Special Report",        tags: ["el"] },
-  { date: "September 21, 2026",     title: "English Learners: Paths to Success",                                                                  format: "Video",                 tags: ["el"] },
-  { date: "October 2026",           title: "Special Education Support for English Learners",                                                      format: "Webinar",               tags: ["sped","el"] },
-  { date: "October 1, 2026",        title: "English Learners: Paths to Success",                                                                  format: "K-12 Essentials Forum", tags: ["el"] },
-  { date: "October 19, 2026",       title: "Engagement and Motivation in Reading",                                                                format: "Special Report",        tags: ["reading"] },
-  { date: "October 19, 2026",       title: "Engagement and Motivation in Reading",                                                                format: "Video",                 tags: ["reading"] },
-  { date: "November 2026",          title: "The Growth of Private School Choice: Implications for Public School Funding, Enrollment, and Outreach to Parents", format: "Webinar", tags: ["policy"] },
-  { date: "November 5, 2026",       title: "Engagement and Motivation in Reading",                                                                format: "K-12 Essentials Forum", tags: ["reading"] },
-  { date: "November 11\u201313, 2026", title: "EdWeek Market Brief Summit (Nashville, TN)",                                                       format: "Special Event",         tags: ["districtleaders","policy"] },
-  { date: "November 16, 2026",      title: "Professional Development: Preparing Teachers for an AI-Infused World",                                format: "Special Report",        tags: ["pd","ai"] },
-  { date: "November 16, 2026",      title: "Professional Development: Preparing Teachers for an AI-Infused World",                                format: "Video",                 tags: ["pd","ai"] },
-  { date: "December 7, 2026",       title: "How Are Public School Districts Marketing Themselves to Parents? (3 videos)",                         format: "Video Special Report",  tags: ["districtleaders"] },
-  { date: "December 10, 2026",      title: "Professional Development: Preparing Teachers for an AI-Infused World",                                format: "K-12 Essentials Forum", tags: ["pd","ai"] },
-  { date: "January 2027",           title: "The Skills That Predict Student Success in Algebra",                                                  format: "Webinar",               tags: ["math"] },
-  { date: "January 25, 2027",       title: "Student Well-Being: New Challenges and Opportunities",                                                format: "Special Report",        tags: ["sel"] },
-  { date: "January 25, 2027",       title: "Student Well-Being: New Challenges and Opportunities",                                                format: "Video",                 tags: ["sel"] },
-  { date: "February 2027",          title: "Why the Science of Reading Is About More Than Just Phonics",                                          format: "Webinar",               tags: ["reading"] },
-  { date: "February 4, 2027",       title: "Student Well-Being: New Challenges and Opportunities",                                                format: "K-12 Essentials Forum", tags: ["sel"] },
-  { date: "February 8, 2027",       title: "District Leaders To Learn From (annual)",                                                             format: "Special Report",        tags: ["districtleaders","teaching"] },
-  { date: "February 8, 2027",       title: "District Leaders To Learn From (annual)",                                                             format: "Video",                 tags: ["districtleaders","teaching"] },
-  { date: "February 22, 2027",      title: "Where Do Career-Tech Education and Core Academics Intersect?",                                        format: "Special Report",        tags: ["cte"] },
-  { date: "February 22, 2027",      title: "Where Do Career-Tech Education and Core Academics Intersect?",                                        format: "Video",                 tags: ["cte"] },
-  { date: "March 2027",             title: "Federal Policy Update: Key Developments That Will Affect the Work of K-12 Schools",                   format: "Webinar",               tags: ["policy"] },
-  { date: "March 2027",             title: "Play-Based Learning in Early Grades: How It Can Help Young Students Thrive",                          format: "Webinar",               tags: ["earlyed","sel"] },
-  { date: "March 4, 2027",          title: "Where Do Career-Tech Education and Core Academics Intersect?",                                        format: "K-12 Essentials Forum", tags: ["cte"] },
-  { date: "March 8, 2027 (tentative)", title: "The State of Teaching (annual)",                                                                   format: "Special Report",        tags: ["teaching"] },
-  { date: "March 8, 2027 (tentative)", title: "The State of Teaching (annual)",                                                                   format: "Video",                 tags: ["teaching"] },
-  { date: "April 2027",             title: "What\u2019s Working in Supporting English Learners? Promising Academic Strategies",                   format: "Webinar",               tags: ["el"] },
-  { date: "April 19, 2027",         title: "Case Studies in School-Based AI (annual Technology Counts)",                                          format: "Special Report",        tags: ["ai"] },
-  { date: "April 19, 2027",         title: "Case Studies in School-Based AI (annual Technology Counts)",                                          format: "Video",                 tags: ["ai"] },
-  { date: "May 2027",               title: "Are Books Losing Their Place in American Classrooms?",                                                format: "Webinar",               tags: ["reading"] },
-  { date: "May 3, 2027",            title: "Essential Math: Practical Strategies That Work",                                                      format: "Special Report",        tags: ["math"] },
-  { date: "May 3, 2027",            title: "Essential Math: Practical Strategies That Work",                                                      format: "Video",                 tags: ["math"] },
-  { date: "May 20, 2027",           title: "Case Studies in School-Based AI (annual Technology Counts)",                                          format: "K-12 Essentials Forum", tags: ["ai"] },
-  { date: "May 24, 2027",           title: "Strategies to Support Special Education Students",                                                    format: "Special Report",        tags: ["sped"] },
-  { date: "May 24, 2027",           title: "Strategies to Support Special Education Students",                                                    format: "Video",                 tags: ["sped"] },
-  { date: "June 24, 2027",          title: "Strategies to Support Special Education Students",                                                    format: "K-12 Essentials Forum", tags: ["sped"] },
-  { date: "July 15, 2027",          title: "Essential Math: Practical Strategies That Work",                                                      format: "K-12 Essentials Forum", tags: ["math"] },
+  { date: "May 2026",                  title: "AI and Social-Emotional Learning",                                                                                    format: "Video",                  tags: ["ai","sel"] },
+  { date: "May 2026",                  title: "Make Schools Active: Using Movement to Foster Engagement and Learning",                                                format: "Webinar",                tags: ["sel"] },
+  { date: "May 4, 2026",              title: "Middle and High School Math: How to Get Struggling Learners on Track",                                                format: "Special Report",         tags: ["math"] },
+  { date: "May 7, 2026",              title: "Education Week Leadership Symposium (virtual)",                                                                       format: "Special Event",          tags: ["districtleaders"] },
+  { date: "May 18, 2026",             title: "Professional Development That Delivers on Its Promise",                                                               format: "Special Report",         tags: ["pd"] },
+  { date: "May 21, 2026",             title: "Middle and High School Math: How to Get Struggling Learners on Track",                                                format: "K-12 Essentials Forum",  tags: ["math"] },
+  { date: "June 2026",                title: "Making Computer Science for All Students a Reality",                                                                  format: "Webinar",                tags: ["cs","ai"] },
+  { date: "June 2026",                title: "Early Learning",                                                                                                      format: "Video Series",           tags: ["earlyed"] },
+  { date: "June 2026",                title: "Crafting AI Policies",                                                                                                format: "Video",                  tags: ["ai","policy"] },
+  { date: "June 11, 2026",            title: "EdWeek Market Brief Forum (virtual)",                                                                                 format: "Special Event",          tags: ["districtleaders","policy"] },
+  { date: "June 17, 2026",            title: "The Rewiring of Childhood with Jonathan Haidt (A Seat at the Table)",                                                format: "Live Online Discussion",  tags: ["sel"] },
+  { date: "June 18, 2026",            title: "Professional Development That Delivers on Its Promise",                                                               format: "K-12 Essentials Forum",  tags: ["pd"] },
+  { date: "June 28, 2026",            title: "Ed-Tech Conference Coverage: ISTELive + ASCD",                                                                       format: "Special Event",          tags: ["ai","pd"] },
+  { date: "July 9, 2026",             title: "The State of Teaching: A Detailed Report on the Health of the Profession",                                            format: "K-12 Essentials Forum",  tags: ["teaching"] },
+  { date: "July 13, 2026",            title: "How Can Districts Support Special Education Teachers (3 videos)",                                                     format: "Video Special Report",   tags: ["sped","teaching"] },
+  { date: "August 2026",              title: "Climate Futures: How Schools Are Adapting to Climate Change",                                                         format: "Video Series",           tags: ["climate","policy"] },
+  { date: "August 2026",              title: "The Future of K-12 Funding: What Changes Are Coming to School Budgets?",                                              format: "Webinar",                tags: ["policy"] },
+  { date: "August 3, 2026",           title: "Preparing for a New School Year: Key Issues for District Leaders to Watch",                                           format: "Special Report",         tags: ["districtleaders","policy"] },
+  { date: "August 3, 2026",           title: "Preparing for a New School Year: Key Issues for District Leaders to Watch",                                           format: "Video",                  tags: ["districtleaders","policy"] },
+  { date: "September 2026",           title: "How Principals Can Support Teachers in Managing Student Behavior",                                                    format: "Webinar",                tags: ["teaching","sel"] },
+  { date: "September 8, 2026",        title: "Big Ideas in Education",                                                                                              format: "Special Report",         tags: ["districtleaders"] },
+  { date: "September 8, 2026",        title: "Big Ideas in Education",                                                                                              format: "Video",                  tags: ["districtleaders"] },
+  { date: "September 21, 2026",       title: "English Learners: Paths to Success",                                                                                  format: "Special Report",         tags: ["el"] },
+  { date: "September 21, 2026",       title: "English Learners: Paths to Success",                                                                                  format: "Video",                  tags: ["el"] },
+  { date: "October 2026",             title: "Special Education Support for English Learners",                                                                      format: "Webinar",                tags: ["sped","el"] },
+  { date: "October 1, 2026",          title: "English Learners: Paths to Success",                                                                                  format: "K-12 Essentials Forum",  tags: ["el"] },
+  { date: "October 19, 2026",         title: "Engagement and Motivation in Reading",                                                                                format: "Special Report",         tags: ["reading"] },
+  { date: "October 19, 2026",         title: "Engagement and Motivation in Reading",                                                                                format: "Video",                  tags: ["reading"] },
+  { date: "November 2026",            title: "The Growth of Private School Choice: Implications for Public School Funding, Enrollment, and Outreach to Parents",   format: "Webinar",                tags: ["policy"] },
+  { date: "November 5, 2026",         title: "Engagement and Motivation in Reading",                                                                                format: "K-12 Essentials Forum",  tags: ["reading"] },
+  { date: "November 11, 2026",        title: "EdWeek Market Brief Summit (Nashville, TN)",                                                                          format: "Special Event",          tags: ["districtleaders","policy"] },
+  { date: "November 16, 2026",        title: "Professional Development: Preparing Teachers for an AI-Infused World",                                                format: "Special Report",         tags: ["pd","ai"] },
+  { date: "November 16, 2026",        title: "Professional Development: Preparing Teachers for an AI-Infused World",                                                format: "Video",                  tags: ["pd","ai"] },
+  { date: "December 7, 2026",         title: "How Are Public School Districts Marketing Themselves to Parents? (3 videos)",                                         format: "Video Special Report",   tags: ["districtleaders"] },
+  { date: "December 10, 2026",        title: "Professional Development: Preparing Teachers for an AI-Infused World",                                                format: "K-12 Essentials Forum",  tags: ["pd","ai"] },
+  { date: "January 2027",             title: "The Skills That Predict Student Success in Algebra",                                                                  format: "Webinar",                tags: ["math"] },
+  { date: "January 25, 2027",         title: "Student Well-Being: New Challenges and Opportunities",                                                                format: "Special Report",         tags: ["sel"] },
+  { date: "January 25, 2027",         title: "Student Well-Being: New Challenges and Opportunities",                                                                format: "Video",                  tags: ["sel"] },
+  { date: "February 2027",            title: "Why the Science of Reading Is About More Than Just Phonics",                                                          format: "Webinar",                tags: ["reading"] },
+  { date: "February 4, 2027",         title: "Student Well-Being: New Challenges and Opportunities",                                                                format: "K-12 Essentials Forum",  tags: ["sel"] },
+  { date: "February 8, 2027",         title: "District Leaders To Learn From (annual)",                                                                             format: "Special Report",         tags: ["districtleaders","teaching"] },
+  { date: "February 8, 2027",         title: "District Leaders To Learn From (annual)",                                                                             format: "Video",                  tags: ["districtleaders","teaching"] },
+  { date: "February 22, 2027",        title: "Where Do Career-Tech Education and Core Academics Intersect?",                                                        format: "Special Report",         tags: ["cte"] },
+  { date: "February 22, 2027",        title: "Where Do Career-Tech Education and Core Academics Intersect?",                                                        format: "Video",                  tags: ["cte"] },
+  { date: "March 2027",               title: "Federal Policy Update: Key Developments That Will Affect the Work of K-12 Schools",                                   format: "Webinar",                tags: ["policy"] },
+  { date: "March 2027",               title: "Play-Based Learning in Early Grades: How It Can Help Young Students Thrive",                                          format: "Webinar",                tags: ["earlyed","sel"] },
+  { date: "March 4, 2027",            title: "Where Do Career-Tech Education and Core Academics Intersect?",                                                        format: "K-12 Essentials Forum",  tags: ["cte"] },
+  { date: "March 8, 2027",            title: "The State of Teaching (annual)",                                                                                      format: "Special Report",         tags: ["teaching"] },
+  { date: "March 8, 2027",            title: "The State of Teaching (annual)",                                                                                      format: "Video",                  tags: ["teaching"] },
+  { date: "April 2027",               title: "What\u2019s Working in Supporting English Learners? Promising Academic Strategies",                                   format: "Webinar",                tags: ["el"] },
+  { date: "April 19, 2027",           title: "Case Studies in School-Based AI (annual Technology Counts)",                                                          format: "Special Report",         tags: ["ai"] },
+  { date: "April 19, 2027",           title: "Case Studies in School-Based AI (annual Technology Counts)",                                                          format: "Video",                  tags: ["ai"] },
+  { date: "May 2027",                 title: "Are Books Losing Their Place in American Classrooms?",                                                                format: "Webinar",                tags: ["reading"] },
+  { date: "May 3, 2027",              title: "Essential Math: Practical Strategies That Work",                                                                      format: "Special Report",         tags: ["math"] },
+  { date: "May 3, 2027",              title: "Essential Math: Practical Strategies That Work",                                                                      format: "Video",                  tags: ["math"] },
+  { date: "May 20, 2027",             title: "Case Studies in School-Based AI (annual Technology Counts)",                                                          format: "K-12 Essentials Forum",  tags: ["ai"] },
+  { date: "May 24, 2027",             title: "Strategies to Support Special Education Students",                                                                    format: "Special Report",         tags: ["sped"] },
+  { date: "May 24, 2027",             title: "Strategies to Support Special Education Students",                                                                    format: "Video",                  tags: ["sped"] },
+  { date: "June 24, 2027",            title: "Strategies to Support Special Education Students",                                                                    format: "K-12 Essentials Forum",  tags: ["sped"] },
+  { date: "July 15, 2027",            title: "Essential Math: Practical Strategies That Work",                                                                      format: "K-12 Essentials Forum",  tags: ["math"] },
 ];
+
+// Filter out past months on load
+const visibleOpps = opps.filter(isVisible);
 
 let selectedTopics  = new Set();
 let selectedFormats = new Set();
@@ -385,9 +324,9 @@ function buildTopics() {
   topics.forEach(t => {
     const btn = document.createElement("button");
     btn.className = "tag-btn" + (selectedTopics.has(t.id) ? " active" : "");
-    btn.innerHTML = `<span class="tag-dot" aria-hidden="true"></span>${t.label}`;
+    btn.innerHTML = '<span class="tag-dot" aria-hidden="true"></span>' + t.label;
     btn.setAttribute("aria-pressed", selectedTopics.has(t.id) ? "true" : "false");
-    btn.onclick = () => { toggleTopic(t.id); };
+    btn.onclick = () => toggleTopic(t.id);
     c.appendChild(btn);
   });
 }
@@ -396,38 +335,27 @@ function buildFormats() {
   const c = document.getElementById("format-container");
   c.innerHTML = "";
   formats.forEach(f => {
-    const btn = document.createElement("button");
     const isActive = selectedFormats.has(f.id);
+    const btn = document.createElement("button");
     btn.className = "tag-btn" + (isActive ? " active " + f.cls : "");
-    btn.innerHTML = `<span class="tag-dot" aria-hidden="true"></span>${f.label}`;
+    btn.innerHTML = '<span class="tag-dot" aria-hidden="true"></span>' + f.label;
     btn.setAttribute("aria-pressed", isActive ? "true" : "false");
-    btn.onclick = () => { toggleFormat(f.id); };
+    btn.onclick = () => toggleFormat(f.id);
     c.appendChild(btn);
   });
 }
 
-function toggleTopic(id) {
-  if (selectedTopics.has(id)) selectedTopics.delete(id); else selectedTopics.add(id);
-  buildTopics(); render();
-}
-function toggleFormat(id) {
-  if (selectedFormats.has(id)) selectedFormats.delete(id); else selectedFormats.add(id);
-  buildFormats(); render();
-}
-function clearTopics()  { selectedTopics.clear();  buildTopics();  render(); }
-function clearFormats() { selectedFormats.clear(); buildFormats(); render(); }
+function toggleTopic(id)  { if (selectedTopics.has(id))  selectedTopics.delete(id);  else selectedTopics.add(id);  buildTopics();  render(); }
+function toggleFormat(id) { if (selectedFormats.has(id)) selectedFormats.delete(id); else selectedFormats.add(id); buildFormats(); render(); }
+function clearTopics()    { selectedTopics.clear();  buildTopics();  render(); }
+function clearFormats()   { selectedFormats.clear(); buildFormats(); render(); }
 
 function render() {
   const area = document.getElementById("results-area");
   const noTopics  = selectedTopics.size === 0;
   const noFormats = selectedFormats.size === 0;
 
-  if (noTopics && noFormats) {
-    area.innerHTML = `<div class="empty-state"><p>Select a topic or format above to see matching sponsorship opportunities.</p></div>`;
-    return;
-  }
-
-  const matched = opps.filter(o => {
+  const matched = visibleOpps.filter(o => {
     const topicMatch  = noTopics  || o.tags.some(t => selectedTopics.has(t));
     const formatMatch = noFormats || selectedFormats.has(formatFamily(o.format));
     return topicMatch && formatMatch;
@@ -436,35 +364,18 @@ function render() {
   const count = matched.length;
 
   if (count === 0) {
-    area.innerHTML = `<div class="empty-state"><p>No opportunities match your current filters.<br>Try adjusting your topic or format selection.</p></div>`;
+    area.innerHTML = '<div class="empty-state"><p>No opportunities match your current filters.<br>Try adjusting your topic or format selection.</p></div>';
     return;
   }
 
-  let html = `<div class="results-meta">
-    <span class="results-count">${count} opportunit${count === 1 ? "y" : "ies"} matched</span>
-  </div><div class="results-list">`;
+  let html = '<div class="results-meta"><span class="results-count">' + count + ' opportunit' + (count === 1 ? 'y' : 'ies') + ' matched</span></div><div class="results-list">';
 
   matched.forEach(o => {
     const desc = getDesc(o.format);
-    html += `<div class="result-card">
-      <div class="card-top${desc ? " has-desc" : ""}">
-        <div>
-          <div class="result-title">${o.title}</div>
-          <div class="result-date">${o.date}</div>
-        </div>
-        <span class="format-badge ${badgeClass(o.format)}">${o.format}</span>
-      </div>
-      ${desc ? `<div class="result-desc">${desc}</div>` : ""}
-    </div>`;
+    html += '<div class="result-card"><div class="card-top' + (desc ? ' has-desc' : '') + '"><div><div class="result-title">' + o.title + '</div><div class="result-date">' + o.date + '</div></div><span class="format-badge ' + badgeClass(o.format) + '">' + o.format + '</span></div>' + (desc ? '<div class="result-desc">' + desc + '</div>' : '') + '</div>';
   });
 
-  html += `</div><div class="cta-bar">
-    <div class="cta-text">
-      <p>Interested in these opportunities?</p>
-      <p>Our team can build a custom sponsorship package around your goals.</p>
-    </div>
-    <a href="mailto:mbell@educationweek.org" class="cta-btn">Contact us &rarr;</a>
-  </div>`;
+  html += '</div><div class="cta-bar"><div class="cta-text"><p>Interested in these opportunities?</p><p>Our team can build a custom sponsorship package around your goals.</p></div><a href="mailto:mbell@educationweek.org" class="cta-btn">Contact us &rarr;</a></div>';
 
   area.innerHTML = html;
 }
