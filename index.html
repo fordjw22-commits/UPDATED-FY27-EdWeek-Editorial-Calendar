@@ -89,6 +89,11 @@
     .result-card--expandable:hover { border-color: var(--light-blue); }
     .result-desc--hidden { display: none; }
 
+    .share-row { display: flex; justify-content: flex-end; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+    .share-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--gray-500); background: none; border: 1px solid var(--border); border-radius: 20px; padding: 5px 12px; cursor: pointer; font-family: inherit; transition: all 0.14s; }
+    .share-btn:hover { color: var(--navy); border-color: var(--border-hover); }
+    .share-btn.copied { color: #27864a; border-color: #27864a; }
+
     .footer { text-align: center; padding: 2.5rem 1rem; font-size: 12px; color: #c5c4be; }
 
     @media (max-width: 600px) {
@@ -308,6 +313,32 @@ const visibleOpps = opps.filter(isVisible);
 let selectedTopics  = new Set();
 let selectedFormats = new Set();
 
+// Read filters from URL on load
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("topics"))  params.get("topics").split(",").forEach(t => selectedTopics.add(t));
+  if (params.get("formats")) params.get("formats").split(",").forEach(f => selectedFormats.add(decodeURIComponent(f)));
+})();
+
+function buildFilteredURL() {
+  const url = new URL(window.location.href.split("?")[0]);
+  if (selectedTopics.size)  url.searchParams.set("topics",  [...selectedTopics].join(","));
+  if (selectedFormats.size) url.searchParams.set("formats", [...selectedFormats].map(encodeURIComponent).join(","));
+  return url.toString();
+}
+
+function copyLink() {
+  const url = buildFilteredURL();
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.getElementById("share-btn");
+    if (btn) {
+      btn.textContent = "✓ Link copied!";
+      btn.classList.add("copied");
+      setTimeout(() => { btn.textContent = "🔗 Copy shareable link"; btn.classList.remove("copied"); }, 2500);
+    }
+  });
+}
+
 function formatFamily(format) {
   const f = format.toLowerCase();
   if (f.includes("forum"))      return "K-12 Essentials Forum";
@@ -365,10 +396,25 @@ function buildFormats() {
   });
 }
 
-function toggleTopic(id)  { if (selectedTopics.has(id))  selectedTopics.delete(id);  else selectedTopics.add(id);  buildTopics();  render(); }
-function toggleFormat(id) { if (selectedFormats.has(id)) selectedFormats.delete(id); else selectedFormats.add(id); buildFormats(); render(); }
-function clearTopics()    { selectedTopics.clear();  buildTopics();  render(); }
-function clearFormats()   { selectedFormats.clear(); buildFormats(); render(); }
+function renderShareBtn() {
+  const existing = document.getElementById("share-row");
+  const hasFilters = selectedTopics.size > 0 || selectedFormats.size > 0;
+  if (!hasFilters) {
+    if (existing) existing.remove();
+    return;
+  }
+  if (!existing) {
+    const row = document.createElement("div");
+    row.className = "share-row";
+    row.id = "share-row";
+    row.innerHTML = '<button class="share-btn" id="share-btn" onclick="copyLink()">🔗 Copy shareable link</button>';
+    document.querySelector(".filter-section").appendChild(row);
+  }
+}
+function toggleTopic(id)  { if (selectedTopics.has(id))  selectedTopics.delete(id);  else selectedTopics.add(id);  buildTopics();  renderShareBtn(); render(); }
+function toggleFormat(id) { if (selectedFormats.has(id)) selectedFormats.delete(id); else selectedFormats.add(id); buildFormats(); renderShareBtn(); render(); }
+function clearTopics()    { selectedTopics.clear();  buildTopics();  renderShareBtn(); render(); }
+function clearFormats()   { selectedFormats.clear(); buildFormats(); renderShareBtn(); render(); }
 
 function render() {
   const area = document.getElementById("results-area");
@@ -391,21 +437,42 @@ function render() {
   let html = '<div class="results-meta"><span class="results-count">' + count + ' opportunit' + (count === 1 ? 'y' : 'ies') + ' matched</span></div><div class="results-list">';
 
   const filtered = !noTopics || !noFormats;
+  const availableTitles = [];
+  const availableOpps = [];
+
   matched.forEach((o, i) => {
     const desc = getDesc(o.format);
     const cardId = 'card-desc-' + i;
+    const badgeHtml = '<span class="format-badge ' + badgeClass(o.format) + '">' + o.format + '</span>';
+    const badgeWrap = '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">' + badgeHtml + '</div>';
+
+    availableTitles.push(o.title);
+    availableOpps.push(o);
+
     if (desc) {
       if (filtered) {
-        html += '<div class="result-card"><div class="card-top has-desc"><div><div class="result-title">' + o.title + '</div><div class="result-date">' + o.date + '</div></div><span class="format-badge ' + badgeClass(o.format) + '">' + o.format + '</span></div><div class="result-desc">' + desc + '</div></div>';
+        html += '<div class="result-card"><div class="card-top has-desc"><div><div class="result-title">' + o.title + '</div><div class="result-date">' + o.date + '</div></div>' + badgeWrap + '</div><div class="result-desc">' + desc + '</div></div>';
       } else {
-        html += '<div class="result-card result-card--expandable" onclick="toggleDesc(\'' + cardId + '\', this)" style="cursor:pointer"><div class="card-top"><div><div class="result-title">' + o.title + '</div><div class="result-date">' + o.date + '</div></div><span class="format-badge ' + badgeClass(o.format) + '">' + o.format + '</span></div><div class="result-desc result-desc--hidden" id="' + cardId + '">' + desc + '</div></div>';
+        html += '<div class="result-card result-card--expandable" onclick="toggleDesc(\'' + cardId + '\', this)" style="cursor:pointer"><div class="card-top"><div><div class="result-title">' + o.title + '</div><div class="result-date">' + o.date + '</div></div>' + badgeWrap + '</div><div class="result-desc result-desc--hidden" id="' + cardId + '">' + desc + '</div></div>';
       }
     } else {
-      html += '<div class="result-card"><div class="card-top"><div><div class="result-title">' + o.title + '</div><div class="result-date">' + o.date + '</div></div><span class="format-badge ' + badgeClass(o.format) + '">' + o.format + '</span></div></div>';
+      html += '<div class="result-card"><div class="card-top"><div><div class="result-title">' + o.title + '</div><div class="result-date">' + o.date + '</div></div>' + badgeWrap + '</div></div>';
     }
   });
 
-  html += '</div><div class="cta-bar"><div class="cta-text"><p>Interested in these opportunities?</p><p>Our team can build a custom sponsorship package around your goals.</p></div><a href="mailto:mbell@educationweek.org" class="cta-btn">Contact us &rarr;</a></div>';
+  // Build pre-populated email
+  const emailSubject = encodeURIComponent('EdWeek Sponsorship Inquiry');
+  const oppList = availableOpps.length
+    ? availableOpps.map(o => '  \u2022 ' + o.title + ' | ' + o.format + ' | ' + o.date).join('\n')
+    : '  (all opportunities)';
+  const emailBody = encodeURIComponent(
+    'Hi,\n\nI\u2019m interested in learning more about the following EdWeek sponsorship opportunities:\n\n' +
+    oppList +
+    '\n\nThank you!'
+  );
+  const mailtoHref = 'mailto:mbell@educationweek.org?subject=' + emailSubject + '&body=' + emailBody;
+
+  html += '</div><div class="cta-bar"><div class="cta-text"><p>Interested in these opportunities?</p><p>Our team can build a custom sponsorship package around your goals.</p></div><a href="' + mailtoHref + '" class="cta-btn">Contact us &rarr;</a></div>';
 
   area.innerHTML = html;
 }
@@ -424,6 +491,7 @@ function toggleDesc(id, card) {
 
 buildTopics();
 buildFormats();
+renderShareBtn();
 render();
 </script>
 </body>
