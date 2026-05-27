@@ -462,14 +462,20 @@ function render() {
 
   // Build pre-populated email
   const emailSubject = encodeURIComponent('EdWeek Sponsorship Inquiry');
-  const oppList = availableOpps.length
-    ? availableOpps.map(o => '  \u2022 ' + o.title + ' | ' + o.format + ' | ' + o.date).join('\n')
-    : '  (all opportunities)';
-  const emailBody = encodeURIComponent(
-    'Hi,\n\nI\u2019m interested in learning more about the following EdWeek sponsorship opportunities:\n\n' +
-    oppList +
-    '\n\nThank you!'
-  );
+  const hasFilters = !noTopics || !noFormats;
+  let emailBody;
+  if (hasFilters) {
+    const oppList = availableOpps.map(o => '  \u2022 ' + o.title + ' | ' + o.format + ' | ' + o.date).join('\n');
+    emailBody = encodeURIComponent(
+      'Hi,\n\nI\u2019m interested in learning more about the following EdWeek sponsorship opportunities:\n\n' +
+      oppList +
+      '\n\nThank you!'
+    );
+  } else {
+    emailBody = encodeURIComponent(
+      'Hi,\n\nI\u2019m interested in learning more about EdWeek sponsorship opportunities.\n\nThank you!'
+    );
+  }
   const mailtoHref = 'mailto:mbell@educationweek.org?subject=' + emailSubject + '&body=' + emailBody;
 
   html += '</div><div class="cta-bar"><div class="cta-text"><p>Interested in these opportunities?</p><p>Our team can build a custom sponsorship package around your goals.</p></div><a href="' + mailtoHref + '" class="cta-btn">Contact us &rarr;</a></div>';
