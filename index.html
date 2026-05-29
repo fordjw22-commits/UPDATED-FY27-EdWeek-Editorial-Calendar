@@ -89,12 +89,6 @@
     .result-card--expandable:hover { border-color: var(--light-blue); }
     .result-desc--hidden { display: none; }
 
-    .month-select-row { display: flex; align-items: center; gap: 12px; }
-    .month-select-group { display: flex; align-items: center; gap: 8px; }
-    .month-select-group label { font-size: 12px; color: var(--gray-500); font-weight: 500; white-space: nowrap; }
-    .month-select { font-family: inherit; font-size: 13px; font-weight: 500; color: var(--navy); background: var(--gray-50); border: 1.5px solid var(--navy); border-radius: 20px; padding: 7px 30px 7px 14px; cursor: pointer; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%231a2744' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 11px center; min-width: 130px; }
-    .month-select:focus { outline: 2px solid var(--light-blue); outline-offset: 1px; }
-
     .share-row { display: flex; justify-content: flex-end; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
     .share-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--gray-500); background: none; border: 1px solid var(--border); border-radius: 20px; padding: 5px 12px; cursor: pointer; font-family: inherit; transition: all 0.14s; }
     .share-btn:hover { color: var(--navy); border-color: var(--border-hover); }
@@ -143,25 +137,9 @@
       </div>
       <div class="tag-grid" id="format-container"></div>
     </div>
-    <hr class="filter-divider">
-    <div class="filter-row" style="margin-bottom:0">
-      <div class="filter-header">
-        <span class="filter-label">Filter by date range</span>
-        <button class="clear-btn" id="month-clear-btn" onclick="clearMonths()" style="display:none">Clear</button>
-      </div>
-      <div class="month-select-row">
-        <div class="month-select-group">
-          <label for="month-start">From</label>
-          <select id="month-start" class="month-select" onchange="applyMonthRange()"></select>
-        </div>
-        <div class="month-select-group">
-          <label for="month-end">To</label>
-          <select id="month-end" class="month-select" onchange="applyMonthRange()"></select>
-        </div>
-      </div>
-    </div>
   </div>
-  <div id="results-area"></div></main>
+  <div id="results-area"></div>
+</main>
 
 <footer class="footer">
   Titles and publication dates are subject to change. &copy; 2026 Editorial Projects in Education.
@@ -334,61 +312,6 @@ const visibleOpps = opps.filter(isVisible);
 
 let selectedTopics  = new Set();
 let selectedFormats = new Set();
-let monthStart = null; // "YYYY-MM" key or null
-let monthEnd   = null;
-
-function getAvailableMonths() {
-  const seen = new Set();
-  const result = [];
-  visibleOpps.forEach(o => {
-    const parsed = parseOppDate(o.date);
-    if (!parsed) return;
-    const key = parsed.year + '-' + String(parsed.month).padStart(2, '0');
-    if (!seen.has(key)) { seen.add(key); result.push({ key, year: parsed.year, month: parsed.month }); }
-  });
-  return result;
-}
-
-function buildMonths() {
-  const months = getAvailableMonths();
-  const startEl = document.getElementById("month-start");
-  const endEl   = document.getElementById("month-end");
-  if (!startEl || !endEl) return;
-
-  function populate(sel, selected, placeholder) {
-    const prev = sel.value;
-    sel.innerHTML = '<option value="">' + placeholder + '</option>';
-    months.forEach(({ key, year, month }) => {
-      const label = MONTHS[month].slice(0, 3) + " '" + String(year).slice(2);
-      const opt = document.createElement("option");
-      opt.value = key;
-      opt.textContent = label;
-      if (key === selected || key === prev) opt.selected = true;
-      sel.appendChild(opt);
-    });
-  }
-
-  populate(startEl, monthStart, "Start month");
-  populate(endEl,   monthEnd,   "End month");
-
-  const clearBtn = document.getElementById("month-clear-btn");
-  if (clearBtn) clearBtn.style.display = (monthStart || monthEnd) ? "" : "none";
-}
-
-function applyMonthRange() {
-  monthStart = document.getElementById("month-start").value || null;
-  monthEnd   = document.getElementById("month-end").value   || null;
-  const clearBtn = document.getElementById("month-clear-btn");
-  if (clearBtn) clearBtn.style.display = (monthStart || monthEnd) ? "" : "none";
-  render();
-}
-
-function clearMonths() {
-  monthStart = null;
-  monthEnd   = null;
-  buildMonths();
-  render();
-}
 
 // Read filters from URL on load
 (function() {
@@ -501,16 +424,7 @@ function render() {
   const matched = visibleOpps.filter(o => {
     const topicMatch  = noTopics  || o.tags.some(t => selectedTopics.has(t));
     const formatMatch = noFormats || selectedFormats.has(formatFamily(o.format));
-    const monthMatch  = (() => {
-      if (!monthStart && !monthEnd) return true;
-      const parsed = parseOppDate(o.date);
-      if (!parsed) return true;
-      const key = parsed.year + '-' + String(parsed.month).padStart(2, '0');
-      if (monthStart && key < monthStart) return false;
-      if (monthEnd   && key > monthEnd)   return false;
-      return true;
-    })();
-    return topicMatch && formatMatch && monthMatch;
+    return topicMatch && formatMatch;
   });
 
   const count = matched.length;
@@ -583,7 +497,6 @@ function toggleDesc(id, card) {
 
 buildTopics();
 buildFormats();
-buildMonths();
 renderShareBtn();
 render();
 </script>
